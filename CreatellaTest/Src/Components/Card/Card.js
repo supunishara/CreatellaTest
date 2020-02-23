@@ -32,7 +32,7 @@ export default class Card extends Component {
       borderWidth:0.7
     }
     return <View style={styles.cardContainer}>
-      <View style={Index == 0 ? leftItemStyle: rightItemStyle}></View>
+      <TouchableOpacity style={Index == 0 ? leftItemStyle: rightItemStyle}></TouchableOpacity>
     </View>;
   }
 }

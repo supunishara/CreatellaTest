@@ -21,7 +21,7 @@ export default class Home extends Component {
   constructor(props){
       super(props);
       this.state = {
-          listData:null,
+          listData:[],
           isLoading:false,
           pageIndex:1
       }
@@ -29,22 +29,21 @@ export default class Home extends Component {
 
   //fetch Data from LocalHost
   componentDidMount(){
-      this.setState({
-        isLoading: true
-      });
       this.fetchRecords(1);
     
   }
 
   //fetch Method
   fetchRecords = (pageIndex) => {
-    alert('fetchin');
+    let {listData} = this.state;
+    this.setState({isLoading: true});
     fetch(`http://127.0.0.1:3000/products?_page=${pageIndex}&_limit=16`)
         .then(response => response.json())
         .then((responseJson)=> {
+          let data = listData.concat(responseJson)
             this.setState({
                 isLoading: false,
-                listData: responseJson
+                listData: data,
             });
         })
         .catch(error=>console.log(error)) //to catch the errors if any
@@ -74,7 +73,10 @@ export default class Home extends Component {
   render() {
       let {isLoading, listData} = this.state;
     return <View style={styles.container}>
-    <Spinner show={isLoading} size={40}/>
+        <View style={styles.spinnerContainer}>
+          <Spinner show={isLoading} size={40}/>
+        </View>
+    
         {listData && <FlatList
               data={listData}
               horizontal={false}
@@ -97,5 +99,14 @@ const styles = StyleSheet.create({
     height: Metrics.DEVICE_HEIGHT,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex:0
   },
+  spinnerContainer:{
+    width: Metrics.DEVICE_WIDTH,
+    height: Metrics.DEVICE_HEIGHT,
+    position:'absolute',
+    left:Metrics.DEVICE_WIDTH/2,
+    top:Metrics.DEVICE_HEIGHT/2,
+    zIndex:1
+  }
 });

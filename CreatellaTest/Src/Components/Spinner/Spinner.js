@@ -15,6 +15,12 @@ export default class Spinner extends Component {
         this.spinAnimation();
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.show){
+            this.spinAnimation();
+          }
+    }
+
     //Spin the PNG image 
     spinAnimation(){
         this.loadingSpin .setValue(0);
@@ -28,7 +34,7 @@ export default class Spinner extends Component {
             // Animated.timing(
             //     this.loadingSpin,{
             //         toValue: 0,
-            //         duration: 1000
+            //         duration: 3000
             //     }
             // )
         ]).start(() => this.spinAnimation)
@@ -37,6 +43,7 @@ export default class Spinner extends Component {
 
     render() {
       const {show, size} = this.props;
+      
 
       //interpolate when loadingSpin values goes to 0 to 1
       const spin = this.loadingSpin.interpolate({
