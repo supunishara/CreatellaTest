@@ -3,7 +3,7 @@ import {
   FlatList,
   View,
   StyleSheet,
-  Dimensions,
+  Text,
 } from 'react-native';
 
 //import device measurements
@@ -21,14 +21,22 @@ export default class Home extends Component {
   constructor(props){
       super(props);
       this.state = {
-          listData:[],
+          listData:[ 'A', 'B', 'D', 'E','F','G','H' ],
           isLoading:false,
+          isShowingFooter:false,
           pageIndex:1
       }
   }
 
   //fetch Data from LocalHost
   componentDidMount(){
+    // console.log("1234321",this.state.listData);
+    // let stateArray = this.state.listData;
+    // let nArray = stateArray.splice(2, 0, "C");;
+    // let newArray = [ ...this.state.listData, nArray ];
+    // console.log("newArray==newArray=",newArray);
+    // console.log("final element", this.state.listData[this.state.listData.length-1]);
+
       this.fetchRecords(1);
     
   }
@@ -45,6 +53,12 @@ export default class Home extends Component {
                 isLoading: false,
                 listData: data,
             });
+
+            if(Object.keys(responseJson).length == 0){
+              this.setState({
+                isShowingFooter:true
+              });
+            }
         })
         .catch(error=>console.log(error)) //to catch the errors if any
 }
@@ -52,6 +66,8 @@ export default class Home extends Component {
 
    //render Item of the FlatList
    renderItem = ({item, index}) => {
+     let{listData} = this.state;
+    const [lastItem] = listData.slice(-1)
     return (
       <Card
         item={item}
@@ -59,6 +75,20 @@ export default class Home extends Component {
       />
     );
   };
+
+  //render the List footer if isShowingFooter is true
+  renderFooter = () => {
+    let {isShowingFooter} = this.state;
+    if(isShowingFooter){
+      return(
+        <View style={styles.footerContainer}>
+          <Text>~ end of catalogue ~</Text>
+        </View>
+      )
+    }
+    return null;
+  }
+
 
 //calls when flatlist reaches end
   onScrollHandler = () => {
@@ -86,6 +116,7 @@ export default class Home extends Component {
                 return item.id;
               }}
               renderItem={this.renderItem}
+              ListFooterComponent={this.renderFooter}
               onEndReached={this.onScrollHandler}
               onEndThreshold={0}
             />}
@@ -108,5 +139,11 @@ const styles = StyleSheet.create({
     left:Metrics.DEVICE_WIDTH/2,
     top:Metrics.DEVICE_HEIGHT/2,
     zIndex:1
+  },
+  footerContainer:{
+    width: Metrics.DEVICE_WIDTH,
+    height: Metrics.DEVICE_HEIGHT/10,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });
