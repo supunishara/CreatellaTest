@@ -24,21 +24,12 @@ export default class Spinner extends Component {
     //Spin the PNG image 
     spinAnimation(){
         this.loadingSpin .setValue(0);
-        Animated.sequence([
             Animated.timing(
                 this.loadingSpin,{
                     toValue: 1,
                     duration: 3000
                 }
-            ),
-            // Animated.timing(
-            //     this.loadingSpin,{
-            //         toValue: 0,
-            //         duration: 3000
-            //     }
-            // )
-        ]).start(() => this.spinAnimation)
-        
+            ).start(() => this.spinAnimation)
     }
 
     render() {

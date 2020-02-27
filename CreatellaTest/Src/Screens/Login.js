@@ -44,6 +44,7 @@ export default class Login extends Component {
 
   //Login Button Press event
   onLoginPressed = () => {
+    
     Animated.sequence([
       Animated.parallel([
         Animated.timing(this.btnWidth, {
