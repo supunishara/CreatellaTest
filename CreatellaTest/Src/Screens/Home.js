@@ -76,16 +76,15 @@ export default class Home extends Component {
   fetchRecords = (pageIndex) => {
     let {listData,addIndex,selectedDropDownValue} = this.state;
     this.setState({isLoading: true,});
-    let URL = selectedDropDownValue == null ? `http://127.0.0.1:3000/products?_page=${pageIndex}&_limit=16`: `http://127.0.0.1:3000/products?_sort=${selectedDropDownValue}`;
+    let URL = selectedDropDownValue == null ? `http://127.0.0.1:3000/products?_page=${pageIndex}&_limit=10`: `http://127.0.0.1:3000/products?_sort=${selectedDropDownValue}`;
 
-    console.log("---------------URL------------------",URL);
     fetch(URL)
         .then(response => response.json())
         .then((responseJson)=> {
           let data = listData.concat(responseJson)
             this.setState({
                 isLoading: false,
-                listData: data,
+                listData:  data,
             }, () => {
               if( pageIndex >= 2){
                 let stateArray = this.state.listData;
@@ -96,7 +95,7 @@ export default class Home extends Component {
                   listData: stateArray,
                   addIndex:addIndex + 20
                 },() =>{
-                  console.log('listData--listData--123',listData);
+                  console.log('listData--listData--123',nArray);
                 });
               }
             });
