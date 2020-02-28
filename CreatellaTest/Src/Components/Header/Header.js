@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
         height:Metrics.HEADER_HEIGHT,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        backgroundColor:'#C0C0C0',
+        paddingBottom:5
       },
       textInputContainer: {
         height: Metrics.BTN_HEIGHT,

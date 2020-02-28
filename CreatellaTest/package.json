@@ -15,6 +15,7 @@
     "react-native-gesture-handler": "^1.6.0",
     "react-native-material-dropdown": "git+https://git@github.com/akiladevinda/react-native-material-dropdown.git",
     "react-native-screens": "^2.0.0-beta.10",
+    "react-native-webview": "^8.1.2",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.9.3"
   },

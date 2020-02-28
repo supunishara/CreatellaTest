@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
   Text,
+  NetInfo
 } from 'react-native';
 
 //import device measurements
@@ -42,40 +43,20 @@ export default class Home extends Component {
       }
   }
 
-  //fetch Data from LocalHost
+  //fetch Data from LocalHost for the first time
   componentDidMount(){
-    // console.log("1234321",this.state.listData);
-    // let stateArray = this.state.listData;
-    // let nArray = stateArray.splice(2, 0, "C");;
-    // let newArray = [ ...this.state.listData, nArray ];
-    // console.log("newArray==newArray=",newArray);
-    // console.log("final element", this.state.listData[this.state.listData.length-1]);
-
-    // let i = 0;
-    // for(i = 0; i<5; i++){
-    //   console.log("--let--let",i);
-    //   let stateArray = this.state.listData;
-    //   let nArray = stateArray.splice(2, 0, "K");
-    //   let newArray = [ ...this.state.listData, nArray ];
-    //   i = i+2;
-    //   console.log("newArray==newArray=",newArray);
-    // }
-
-    // var arr=[2,4,6,8,10,12,14];
-    // // var l = arr[arr.length-1];
-    // arr.splice(2, 0, "K");
-
-    // console.log("array--array",arr);
-
-
-
       this.fetchRecords(1);
+      // this.fetchAdvertisements();
   }
 
   //fetch Method
-  fetchRecords = (pageIndex) => {
+  fetchRecords = async(pageIndex) => {
     let {listData,addIndex,selectedDropDownValue} = this.state;
     this.setState({isLoading: true,});
+
+    let addObj = {
+      type:"URL"
+    }
     let URL = selectedDropDownValue == null ? `http://127.0.0.1:3000/products?_page=${pageIndex}&_limit=10`: `http://127.0.0.1:3000/products?_sort=${selectedDropDownValue}`;
 
     fetch(URL)
@@ -88,37 +69,25 @@ export default class Home extends Component {
             }, () => {
               if( pageIndex >= 2){
                 let stateArray = this.state.listData;
-                console.log('stateArray--stateArray--stateArray',stateArray);
-                let nArray = stateArray.splice(addIndex, 0, "K");
-                let newArray = [ ...this.state.listData, nArray ];
+                let nArray = stateArray.splice(addIndex, 0, addObj);
+                // let newArray = [ ...this.state.listData, nArray ];
                 this.setState({
                   listData: stateArray,
                   addIndex:addIndex + 20
                 },() =>{
-                  console.log('listData--listData--123',nArray);
+                  console.log('listData--listData--123',stateArray);
                 });
               }
             });
+
 
             if(Object.keys(responseJson).length == 0){
               this.setState({
                 isShowingFooter:true
               });
             }
-
-
-
-          //   if (listData.length % addIndex === 0) {
-          //     let stateArray = this.state.listData;
-          //     let nArray = stateArray.splice(addIndex+1, 0, {id:'add'});
-          //     let newArray = [ ...this.state.listData, nArray ];
-          //     this.setState({listData: newArray});
-          //     addIndex = addIndex + 20;
-          
-          // } 
-
         })
-        .catch(error=>console.log(error)) //to catch the errors if any
+        .catch(error=>this.setState({isLoading: false,})) //to catch the errors if any
 }
 
 

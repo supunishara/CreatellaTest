@@ -1,10 +1,11 @@
 export default class Helper {
 
-
+  //for currency formatting
     currencyFormat(num) {
         return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
       }
 
+      //for time formatting
     timeFormat(prevTime){
         //breaking down the incoming Time Stamp to parts
         const [day, month, date, year, time] = prevTime.split(' ');
